@@ -76,7 +76,7 @@ class ServerListViewSet(viewsets.ViewSet):
         - with_num_members: Include the number of members in each server.
 
         Example:
-            A GET request to `/servers/?category=Tech&qty=10&by_user=true&with_num_members=true`
+            A GET request to `api/servers/?category=Tech&qty=10&by_user=true&with_num_members=true`
             will return a Response object containing a list of up to 10 servers in the "Tech" category
             that are associated with the currently authenticated user, with the number of members
             included in each server object.
