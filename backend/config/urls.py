@@ -1,3 +1,4 @@
+from account.views import JWTCookieTokenObtainPairView, JWTCookieTokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -17,6 +18,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/docs/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/schema/ui/", SpectacularSwaggerView.as_view()),
+    path("api/token/", JWTCookieTokenObtainPairView.as_view()),
+    path("api/token/refresh/", JWTCookieTokenRefreshView.as_view()),
 ] + router.urls
 
 websocket_urlpatterns = [
