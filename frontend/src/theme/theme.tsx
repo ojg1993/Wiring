@@ -9,6 +9,9 @@ declare module "@mui/material/styles" {
       width: number;
       closed: number;
     };
+    secondaryDraw: {
+      width: number;
+    };
   }
   interface ThemeOptions {
     // ?: optional
@@ -18,6 +21,9 @@ declare module "@mui/material/styles" {
     primaryDraw: {
       width?: number;
       closed?: number;
+    };
+    secondaryDraw?: {
+      width?: number;
     };
   }
 }
@@ -33,6 +39,9 @@ const createMuiTheme = () => {
     primaryDraw: {
       width: 240,
       closed: 70,
+    },
+    secondaryDraw: {
+      width: 240,
     },
     components: {
       MuiAppBar: {
