@@ -82,10 +82,10 @@ class ServerListViewSet(viewsets.ViewSet):
             included in each server object.
         """
 
-        category = request.query_params.get("category", None)
-        qty = request.query_params.get("qty", None)
+        category = request.query_params.get("category")
+        qty = request.query_params.get("qty")
         by_user = request.query_params.get("by_user") == "true"
-        by_server_id = request.query_params.get("by_server_id", None)
+        by_server_id = request.query_params.get("by_server_id")
 
         # Optional computation: counting joined members of the server
         with_num_members = request.query_params.get("with_num_members") == "true"
