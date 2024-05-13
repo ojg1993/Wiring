@@ -40,8 +40,8 @@ class Category(models.Model):
 
             if prev.icon != self.icon:
                 prev.icon.delete(save=False)
-            self.name = self.name.lower()
-            super(Category, self).save(*args, **kwargs)
+        self.name = self.name.lower()
+        super(Category, self).save(*args, **kwargs)
 
     @receiver(models.signals.post_delete, sender="server.Category")
     def category_delete_files(sender, instance, **kwargs):
