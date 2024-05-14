@@ -3,6 +3,7 @@ import PrimaryAppBar from "./templates/PrimaryAppBar";
 import PrimaryDraw from "./templates/PrimaryDraw";
 import SecondaryDraw from "./templates/SecondaryDraw";
 import Main from "./templates/Main";
+import PopularServers from "../components/PrimaryDraw/PopularServers";
 
 const Home = () => {
   return (
@@ -10,7 +11,9 @@ const Home = () => {
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <PrimaryAppBar />
-        <PrimaryDraw></PrimaryDraw>
+        <PrimaryDraw>
+          <PopularServers />
+        </PrimaryDraw>
         <SecondaryDraw />
         <Main />
       </Box>
