@@ -20,6 +20,7 @@ interface Server {
   name: string;
   category: string;
   icon: string;
+  banner: string;
 }
 
 type Props = {
@@ -95,7 +96,7 @@ const PopularServers: React.FC<Props> = ({ open }) => {
                       sx={{
                         fontWeight: 500,
                         lineHeight: 1.2,
-                        color: "textScondary",
+                        color: "textSecondary",
                       }}
                     >
                       {server.category}
