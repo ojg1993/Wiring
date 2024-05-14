@@ -3,6 +3,7 @@ db.sqlite3
 .env
 __pycache__
 static
+*.txt
 
 # Logs
 logs
