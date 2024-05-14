@@ -7,7 +7,7 @@ from . import validators
 
 
 def category_icon_upload_path(instance, filename):
-    return f"category/{instance.name}/{filename}"
+    return f"category/{instance.id}/{filename}"
 
 
 def server_icon_upload_path(instance, filename):
@@ -25,10 +25,6 @@ class Category(models.Model):
         upload_to=category_icon_upload_path,
         null=True,
         blank=True,
-        validators=[
-            validators.validate_icon_image_size,
-            validators.validate_image_file_extensions,
-        ],
     )
 
     def __str__(self):

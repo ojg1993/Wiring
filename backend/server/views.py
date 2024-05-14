@@ -33,7 +33,7 @@ class CategoryListViewSet(viewsets.ViewSet):
         Returns:
             Response: A Response object containing serialized data of categories.
         """
-        serializer = CategorySerializer(Category.objects.all(), many=True)
+        serializer = CategorySerializer(self.queryset, many=True)
         return Response(serializer.data)
 
 
