@@ -84,7 +84,7 @@ const ExploreServers = () => {
         </Typography>
         <Grid container spacing={{ xs: 0, sm: 2 }}>
           {dataCRUD.map((server) => (
-            <Grid item key={server.id} xs={12} sm={6} md={6} lg={3}>
+            <Grid item key={server.id} xs={12} sm={6} md={6} lg={4}>
               <Card
                 sx={{
                   height: "100%",

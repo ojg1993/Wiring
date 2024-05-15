@@ -55,7 +55,10 @@ const ExploreCategories = () => {
           <ListItem
             disablePadding
             key={category.id}
-            sx={{ display: "block" }}
+            sx={{
+              display: "block",
+              textTransform: "capitalize",
+            }}
             dense={true}
           >
             <Link
