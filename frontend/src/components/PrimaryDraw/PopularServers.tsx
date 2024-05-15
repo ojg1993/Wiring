@@ -49,7 +49,6 @@ const PopularServers: React.FC<Props> = ({ open }) => {
         }}
       >
         <Typography sx={{ display: open ? "block" : "none" }}>
-          {" "}
           Popular
         </Typography>
       </Box>
@@ -62,11 +61,10 @@ const PopularServers: React.FC<Props> = ({ open }) => {
             dense={true}
           >
             <Link
-              to={`/servers/${server.id}/`}
+              to={`/servers/${server.name}/`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItemButton sx={{ minHeight: 0 }}>
-                {" "}
                 <ListItemIcon sx={{ minWidth: 0, justifyContent: "center" }}>
                   <ListItemAvatar sx={{ minWidth: "50" }}>
                     <Avatar
