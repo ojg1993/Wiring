@@ -59,7 +59,7 @@ const ExploreCategories = () => {
             dense={true}
           >
             <Link
-              to={`/categories/${category.id}`}
+              to={`/servers/${category.name}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItemButton sx={{ minHeight: 48 }}>

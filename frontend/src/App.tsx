@@ -8,11 +8,13 @@ import Home from "./pages/Home";
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
 import createMuiTheme from "./theme/theme";
+import Explore from "./pages/Explore";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Home />} />
+      <Route path="/servers/:categoryName" element={<Explore />} />
     </Route>
   )
 );

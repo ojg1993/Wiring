@@ -1,7 +1,12 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
-const Main = () => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const Main: React.FC<Props> = ({ children }) => {
   const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -11,11 +16,7 @@ const Main = () => {
         overflow: "hidden",
       }}
     >
-      {[...Array(50)].map((_, index) => (
-        <Typography key={index} paragraph>
-          {index + 1}
-        </Typography>
-      ))}
+      {children}
     </Box>
   );
 };
