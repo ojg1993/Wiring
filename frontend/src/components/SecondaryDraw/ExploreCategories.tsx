@@ -8,7 +8,6 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemAvatar,
-  Avatar,
 } from "@mui/material";
 
 import useCrud from "../../hooks/useCrud";
@@ -25,6 +24,7 @@ interface Category {
 
 const ExploreCategories = () => {
   const theme = useTheme();
+  const isDarkMode = theme.palette.mode === "dark";
   const { dataCRUD, error, isLoading, fetchData } = useCrud<Category>(
     [],
     "/categories/"
@@ -76,6 +76,7 @@ const ExploreCategories = () => {
                         height: "25px",
                         display: "block",
                         margin: "auto",
+                        filter: isDarkMode ? "invert(100%)" : "none",
                       }}
                     />
                   </ListItemAvatar>

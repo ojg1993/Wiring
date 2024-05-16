@@ -12,6 +12,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useEffect, useState } from "react";
 import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
+import AccountButton from "../../components/PrimaryAppBar/DarkMode/AccountButton";
 // import Logo from "../../assets/Logo.png";
 
 const PrimaryAppBar = () => {
@@ -92,6 +93,8 @@ const PrimaryAppBar = () => {
             WIRING
           </Typography>
         </Link>
+        <Box sx={{ flexGrow: 1 }}></Box>
+        <AccountButton />
       </Toolbar>
     </AppBar>
   );
