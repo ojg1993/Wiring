@@ -61,7 +61,7 @@ const PopularServers: React.FC<Props> = ({ open }) => {
             dense={true}
           >
             <Link
-              to={`/servers/${server.name}/`}
+              to={`/servers/${server.id}/`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItemButton sx={{ minHeight: 0 }}>

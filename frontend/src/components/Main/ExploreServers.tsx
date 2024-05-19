@@ -96,7 +96,7 @@ const ExploreServers = () => {
                 }}
               >
                 <Link
-                  to={`/servers/${server.name}`}
+                  to={`/servers/${server.id}`}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <CardMedia
