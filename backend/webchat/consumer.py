@@ -33,12 +33,8 @@ class WebChatConsumer(JsonWebsocketConsumer):
         sender = self.user
         message = content["message"]
 
-        conversation, created = Conversation.objects.get_or_create(channel_id=channel_id)
-
-        try:
-            new_msg = Message.objects.create(conversation=conversation, sender=sender, content=message)
-        except Conversation.DoesNotExist:
-            new_msg = Message.objects.create(conversation=created, sender=sender, content=message)
+        conversation, _ = Conversation.objects.get_or_create(channel_id=channel_id)
+        new_msg = Message.objects.create(conversation=conversation, sender=sender, content=message)
 
         async_to_sync(self.channel_layer.group_send)(
             self.channel_id,
