@@ -5,6 +5,7 @@ import { WS_ROOT } from "../../config";
 import useCrud from "../../hooks/useCrud";
 import { Server } from "../../@types/server";
 import { Box, Typography } from "@mui/material";
+import ChannelInterface from "./MessageChannelInterface";
 
 interface ServerChannelsProps {
   data: Server[];
@@ -56,6 +57,7 @@ const MessageInterface = (props: ServerChannelsProps) => {
 
   return (
     <>
+      <ChannelInterface data={data} />
       {channelId == undefined ? (
         <Box
           sx={{
