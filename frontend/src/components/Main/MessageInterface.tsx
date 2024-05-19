@@ -4,8 +4,21 @@ import useWebSocket from "react-use-websocket";
 import { WS_ROOT } from "../../config";
 import useCrud from "../../hooks/useCrud";
 import { Server } from "../../@types/server";
-import { Box, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  TextField,
+  Typography,
+} from "@mui/material";
 import ChannelInterface from "./MessageChannelInterface";
+import { useTheme } from "@mui/material";
+import Scroll from "./Scroll";
+import SendIcon from "@mui/icons-material/Send";
 
 interface ServerChannelsProps {
   data: Server[];
@@ -17,8 +30,15 @@ interface Message {
   timestamp: string;
 }
 
+interface SendMessage {
+  type: string;
+  message: string;
+  [key: string]: any;
+}
+
 const MessageInterface = (props: ServerChannelsProps) => {
   const { data } = props;
+  const theme = useTheme();
   const server_name = data?.[0]?.name ?? "Server";
   const [newMessage, setNewMessage] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
@@ -46,14 +66,43 @@ const MessageInterface = (props: ServerChannelsProps) => {
     onMessage: (msg) => {
       const data = JSON.parse(msg.data);
       setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
+      setMessage("");
     },
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendJsonMessage({ type: "message", message });
-    setMessage("");
+    if (message === "") {
+      return;
+    } else {
+      sendJsonMessage({ type: "message", message } as SendMessage);
+    }
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" && message !== "") {
+      e.preventDefault();
+      sendJsonMessage({ type: "message", message } as SendMessage);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (message !== "") {
+      e.preventDefault();
+      sendJsonMessage({ type: "message", message } as SendMessage);
+    }
+  };
+
+  function formatTimeStamp(timestamp: string): string {
+    const date = new Date(Date.parse(timestamp));
+    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+    const formattedTime = date.toLocaleString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return formattedDate + " " + formattedTime;
+  }
 
   return (
     <>
@@ -85,28 +134,108 @@ const MessageInterface = (props: ServerChannelsProps) => {
         </Box>
       ) : (
         <>
-          <div>
-            {newMessage.map((msg: Message, index: number) => {
-              return (
-                <div key={index}>
-                  <p>{msg.sender}</p>
-                  <p>{msg.content}</p>
-                  <p>{msg.timestamp}</p>
-                </div>
-              );
-            })}
-            <form>
-              <label>
-                Enter Message:
-                <input
-                  type="text"
+          <Box sx={{ overflow: "hidden", p: 0, height: `calc(100vh - 100px)` }}>
+            <Scroll>
+              <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+                {newMessage.map((msg: Message, index: number) => {
+                  return (
+                    <ListItem key={index} alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar alt="user img"></Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primaryTypographyProps={{
+                          fontSize: "12px",
+                          variant: "body2",
+                        }}
+                        primary={
+                          <>
+                            <Typography
+                              component="span"
+                              variant="body1"
+                              color="text.primary"
+                              sx={{ display: "inline", fontWeight: 600 }}
+                            >
+                              {msg.sender}
+                            </Typography>
+                            <Typography
+                              component="span"
+                              variant="caption"
+                              color="textSecondary"
+                              paddingLeft={1}
+                            >
+                              {formatTimeStamp(msg.timestamp)}
+                            </Typography>
+                          </>
+                        }
+                        secondary={
+                          <>
+                            <Typography
+                              component="span"
+                              variant="body1"
+                              color="text.primary"
+                              sx={{
+                                overflow: "visible",
+                                whiteSpace: "nomal",
+                                textOverflow: "clip",
+                                display: "inline",
+                                lineHeight: "1.2",
+                                fontWeight: 400,
+                                letterSpacing: "-0.2px",
+                              }}
+                            >
+                              {msg.content}
+                            </Typography>
+                          </>
+                        }
+                      ></ListItemText>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Scroll>
+          </Box>
+          <Box sx={{ position: "sticky", bottom: 0, width: "100%" }}>
+            <form
+              onSubmit={handleSubmit}
+              style={{
+                bottom: 0,
+                right: 0,
+                padding: "1rem",
+                backgroundColor: theme.palette.background.default,
+                zIndex: 1,
+              }}
+            >
+              <Box sx={{ display: "flex" }}>
+                <TextField
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  fullWidth
+                  multiline
+                  minRows={1}
+                  maxRows={4}
+                  sx={{ flexGrow: 1 }}
+                  onKeyDown={handleKeyDown}
                 />
-              </label>
+                <Button
+                  sx={{
+                    border: "1px solid grey",
+                    borderRadius: "0.5rem",
+                    ml: 1,
+                  }}
+                  endIcon={<SendIcon sx={{ color: "grey" }} />}
+                  onClick={handleClick}
+                >
+                  <Typography
+                    variant="button"
+                    sx={{ fontWeight: 600, color: "grey" }}
+                  >
+                    Send
+                  </Typography>
+                </Button>
+              </Box>
             </form>
-            <button onClick={handleSubmit}>Send</button>
-          </div>
+          </Box>
         </>
       )}
     </>
