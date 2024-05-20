@@ -1,9 +1,28 @@
 from account.serializers import (
+    AccountSerializer,
     CustomTokenObtainPairSerializer,
     JWTCookieTokenRefreshSerializer,
 )
 from django.conf import settings
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from .models import Account
+from .schemas import account_list_docs
+
+
+class AccountViewSet(viewsets.ViewSet):
+    queryset = Account.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    @account_list_docs
+    def list(self, request):
+        user_id = request.query_params.get("user_id")
+        queryset = Account.objects.get(id=user_id)
+        serializer = AccountSerializer(queryset)
+        return Response(serializer.data)
 
 
 class JWTSetCookieMixin:
@@ -25,7 +44,7 @@ class JWTSetCookieMixin:
                 httponly=True,
                 samesite=settings.SIMPLE_JWT["JWT_COOKIE_SAMESITE"],
             )
-            del response.data["access"]
+            # del response.data["access"]
 
         return super().finalize_response(request, response, *args, **kwargs)
 

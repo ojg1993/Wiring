@@ -1,4 +1,8 @@
-from account.views import JWTCookieTokenObtainPairView, JWTCookieTokenRefreshView
+from account.views import (
+    AccountViewSet,
+    JWTCookieTokenObtainPairView,
+    JWTCookieTokenRefreshView,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -13,6 +17,7 @@ router = DefaultRouter()
 router.register("api/categories", CategoryListViewSet)
 router.register("api/servers", ServerListViewSet)
 router.register("api/messages", MessageViewSet, basename="messages")
+router.register("api/account", AccountViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),

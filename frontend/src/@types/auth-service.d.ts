@@ -1,4 +1,5 @@
 export interface AuthServiceProps {
-    login: (username: string, password: string) => any;
-    logout: () => any;
+    login: (username: string, password: string) => void;
+    logout: () => void;
+    isAuthenticated: boolean;
 }

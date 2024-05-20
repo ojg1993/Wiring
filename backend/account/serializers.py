@@ -1,9 +1,17 @@
+from account.models import Account
 from django.conf import settings
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer,
     TokenRefreshSerializer,
 )
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ["username"]
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
