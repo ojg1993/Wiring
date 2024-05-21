@@ -1,9 +1,3 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import useWebSocket from "react-use-websocket";
-import { WS_ROOT } from "../../config";
-import useCrud from "../../hooks/useCrud";
-import { Server } from "../../@types/server";
 import {
   Avatar,
   Box,
@@ -15,10 +9,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ChannelInterface from "./MessageChannelInterface";
+import { useParams } from "react-router-dom";
+import { Server } from "../../@types/server";
 import { useTheme } from "@mui/material";
+import ChannelInterface from "./MessageChannelInterface";
 import Scroll from "./Scroll";
 import SendIcon from "@mui/icons-material/Send";
+import useChatWebSocket from "../../services/chatService";
 
 interface ServerChannelsProps {
   data: Server[];
@@ -40,35 +37,11 @@ const MessageInterface = (props: ServerChannelsProps) => {
   const { data } = props;
   const theme = useTheme();
   const server_name = data?.[0]?.name ?? "Server";
-  const [newMessage, setNewMessage] = useState<Message[]>([]);
-  const [message, setMessage] = useState("");
   const { serverId, channelId } = useParams();
-  const { fetchData } = useCrud<Server>(
-    [],
-    `/messages/?channel_id=${channelId}`
+  const { newMessage, message, setMessage, sendJsonMessage } = useChatWebSocket(
+    serverId || "",
+    channelId || ""
   );
-
-  const socketUrl = channelId ? `${WS_ROOT}/${serverId}/${channelId}/` : null;
-
-  const { sendJsonMessage } = useWebSocket(socketUrl, {
-    onOpen: async () => {
-      try {
-        const data = await fetchData();
-        setNewMessage([]);
-        setNewMessage(Array.isArray(data) ? data : []);
-        console.log("Connected");
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    },
-    onClose: () => console.log("Disconnected"),
-    onError: (event) => console.error("error:", event),
-    onMessage: (msg) => {
-      const data = JSON.parse(msg.data);
-      setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
-      setMessage("");
-    },
-  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -2,8 +2,10 @@ import { AuthServiceProps } from "../@types/auth-service";
 import { BASE_URL } from "../config";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function useAuthService(): AuthServiceProps {
+    const navigate = useNavigate();
     const getInitialAuthStatus = () => {
         const loggedIn = localStorage.getItem("isAuthenticated");
         return loggedIn !== null && loggedIn === "true";
@@ -27,6 +29,14 @@ export function useAuthService(): AuthServiceProps {
             localStorage.setItem("isAuthenticated", "false");
             return error;
         }
+    }
+    
+    const refreshAccessToken = async () => { 
+        try {
+            await axios.post(`${BASE_URL}/token/refresh/`, {}, {withCredentials: true});
+        } catch(refreshError) {
+            return Promise.reject(refreshError)
+        }   
     }
 
     const login = async (username: string, password: string) => {
@@ -53,6 +63,8 @@ export function useAuthService(): AuthServiceProps {
         localStorage.setItem("isAuthenticated", "false");
         localStorage.removeItem("username")
         localStorage.removeItem("user_id")
+        navigate("/");
+
     }
-    return {login, logout, isAuthenticated};
+    return {login, logout, isAuthenticated, refreshAccessToken};
 }
