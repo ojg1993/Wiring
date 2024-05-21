@@ -1,7 +1,7 @@
 from account.models import Account
 from django.conf import settings
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer,
     TokenRefreshSerializer,
@@ -22,7 +22,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class JWTCookieTokenRefreshSerializer(TokenRefreshSerializer):
-    refrest = None
+    refresh = None
 
     def validate(self, attrs):
         attrs["refresh"] = self.context["request"].COOKIES.get(settings.SIMPLE_JWT["REFRESH_TOKEN_NAME"])
@@ -30,4 +30,4 @@ class JWTCookieTokenRefreshSerializer(TokenRefreshSerializer):
         if attrs["refresh"]:
             return super().validate(attrs)
         else:
-            raise ValidationError("No valid refresh token found in cookie")
+            raise InvalidToken("No valid refresh token found in cookie")
