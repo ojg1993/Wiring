@@ -1,6 +1,14 @@
 import { AccountCircle } from "@mui/icons-material";
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
-import DarkModeSwitch from "./DarkModeSwitch";
+import {
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import DarkModeSwitch from "./DarkMode/DarkModeSwitch";
 import { useState } from "react";
 
 const AccountButton = () => {
@@ -25,6 +33,20 @@ const AccountButton = () => {
     >
       <MenuItem>
         <DarkModeSwitch />
+      </MenuItem>
+      <MenuItem>
+        <Button fullWidth>
+          <Link href="/register">
+            <Typography color="grey">Register</Typography>
+          </Link>
+        </Button>
+      </MenuItem>
+      <MenuItem>
+        <Button fullWidth>
+          <Link href="/login">
+            <Typography color="grey">Login</Typography>
+          </Link>
+        </Button>
       </MenuItem>
     </Menu>
   );

@@ -83,7 +83,7 @@ const Login = () => {
             disableElevation
             type="submit"
             variant="contained"
-            sx={{ mt: 1, mb: 2 }}
+            sx={{ mt: 1, mb: 2, backgroundColor: "grey" }}
           >
             Login
           </Button>

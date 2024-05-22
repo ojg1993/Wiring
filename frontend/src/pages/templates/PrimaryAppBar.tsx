@@ -12,7 +12,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useEffect, useState } from "react";
 import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
-import AccountButton from "../../components/PrimaryAppBar/DarkMode/AccountButton";
+import AccountButton from "../../components/PrimaryAppBar/AccountButton";
 // import Logo from "../../assets/Logo.png";
 
 const PrimaryAppBar = () => {
