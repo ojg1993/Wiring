@@ -8,6 +8,26 @@ from rest_framework_simplejwt.serializers import (
 )
 
 
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ["username", "password"]
+
+    def is_valid(self, raise_exception=False):
+        valid = super().is_valid(raise_exception=raise_exception)
+
+        if valid:
+            username = self.validated_data.get("username")
+            if Account.objects.filter(username=username).exists():
+                self.errors["username"] = ["This username is already taken."]
+                valid = False
+        return valid
+
+    def create(self, validated_data):
+        user = Account.objects.create_user(**validated_data)
+        return user
+
+
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account

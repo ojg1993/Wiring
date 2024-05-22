@@ -2,6 +2,8 @@ from account.views import (
     AccountViewSet,
     JWTCookieTokenObtainPairView,
     JWTCookieTokenRefreshView,
+    LogoutAPIView,
+    RegisterAPIView,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,6 +27,8 @@ urlpatterns = [
     path("api/docs/schema/ui/", SpectacularSwaggerView.as_view()),
     path("api/token/", JWTCookieTokenObtainPairView.as_view()),
     path("api/token/refresh/", JWTCookieTokenRefreshView.as_view()),
+    path("api/logout/", LogoutAPIView.as_view()),
+    path("api/register/", RegisterAPIView.as_view()),
 ] + router.urls
 
 websocket_urlpatterns = [

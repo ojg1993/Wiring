@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import { AuthServiceProvider } from "./context/AuthServiceContext";
 import TestLogin from "./pages/TestLogin";
 import ProtectedRoute from "./services/ProtectedRoute";
+import Register from "./pages/Register";
 
 const App: React.FC = () => {
   return (
@@ -25,7 +26,8 @@ const App: React.FC = () => {
               }
             />
             <Route path="/servers/:categoryName" element={<Explore />} />
-            <Route path="/Login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route
               path="/testlogin"
               element={

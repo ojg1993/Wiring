@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuthServiceContext } from "../context/AuthServiceContext";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
-  const { login } = useAuthServiceContext();
+  const { register } = useAuthServiceContext();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -23,16 +23,19 @@ const Login = () => {
     },
     onSubmit: async (values) => {
       const { username, password } = values;
-      const res = await login(username, password);
+      const res = await register(username, password);
 
-      if (res === 401) {
-        console.log("Authentication failed");
+      if (res === 409) {
+        formik.setErrors({
+          username: "Invalid username",
+        });
+      } else if (res === 401) {
         formik.setErrors({
           username: "Invalid username or password",
           password: "Invalid username or password",
         });
       } else {
-        navigate("/");
+        navigate("/login");
       }
     },
   });
@@ -52,7 +55,7 @@ const Login = () => {
           noWrap
           sx={{ fontWeight: 500, pb: 2 }}
         >
-          Sign in
+          Sign up
         </Typography>
         <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <TextField
@@ -85,7 +88,7 @@ const Login = () => {
             variant="contained"
             sx={{ mt: 1, mb: 2 }}
           >
-            Login
+            Register
           </Button>
         </Box>
       </Box>
@@ -93,4 +96,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
