@@ -1,12 +1,50 @@
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Category, Server
 from .schemas import server_list_docs
 from .serializers import CategorySerializer, ServerSerializer
+
+
+class ServerMembershipViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=["GET"])
+    def is_member(self, request, server_id=None):
+        server = get_object_or_404(Server, id=server_id)
+        user = request.user
+        is_member = server.members.filter(id=user.id).exists()
+
+        return Response({"is_member": is_member})
+
+    def create(self, request, server_id):
+        server = get_object_or_404(Server, id=server_id)
+        user = request.user
+
+        if server.members.filter(id=user.id).exists():
+            return Response({"error": "User is already a member of this server."}, status=status.HTTP_409_CONFLICT)
+
+        server.members.add(user)
+        return Response({"detail": "User has been successfully added to the server."}, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=["DELETE"])
+    def remove_member(self, request, server_id):
+        server = get_object_or_404(Server, id=server_id)
+        user = request.user
+
+        if not server.members.filter(id=user.id).exists():
+            return Response({"error:": "User is not a member of this server."}, status=status.HTTP_404_NOT_FOUND)
+
+        server.members.remove(user)
+        return Response(
+            {"detail": "User has been successfully removed from the server."}, status=status.HTTP_204_NO_CONTENT
+        )
 
 
 class CategoryListViewSet(viewsets.ViewSet):

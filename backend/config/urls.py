@@ -11,7 +11,7 @@ from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
-from server.views import CategoryListViewSet, ServerListViewSet
+from server.views import CategoryListViewSet, ServerListViewSet, ServerMembershipViewSet
 from webchat.consumer import WebChatConsumer
 from webchat.views import MessageViewSet
 
@@ -20,6 +20,7 @@ router.register("api/categories", CategoryListViewSet)
 router.register("api/servers", ServerListViewSet)
 router.register("api/messages", MessageViewSet, basename="messages")
 router.register("api/account", AccountViewSet)
+router.register(r"api/membership/(?P<server_id>\d+)", ServerMembershipViewSet, basename="membership")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
