@@ -8,7 +8,6 @@ import {
   IconButton,
   Drawer,
   useTheme,
-  Icon,
   useMediaQuery,
 } from "@mui/material";
 import { Server } from "../../@types/server";
@@ -17,6 +16,7 @@ import { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ServerChannels from "../SecondaryDraw/ServerChannels";
 import { MEDIA_URL } from "../../config";
+import JoinServerButton from "../Membership/JoinServerButton";
 
 interface ServerChannelsProps {
   data: Server[];
@@ -96,6 +96,7 @@ const MessageChannelInterface = (props: ServerChannelsProps) => {
             {channelName}
           </Typography>
           <Box sx={{ flexGrow: 1 }}></Box>
+          <JoinServerButton />
           <Box sx={{ display: { xs: "block", sm: "none" } }}>
             <IconButton color="inherit" edge="end" onClick={toggleDrawer(true)}>
               <MoreVertIcon />

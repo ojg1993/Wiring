@@ -9,6 +9,8 @@ import { AuthServiceProvider } from "./context/AuthServiceContext";
 import TestLogin from "./pages/TestLogin";
 import ProtectedRoute from "./services/ProtectedRoute";
 import Register from "./pages/Register";
+import MembershipProvider from "./context/MembeshiprContext";
+import MembershipCheck from "./components/Membership/MembershipCheck";
 
 const App: React.FC = () => {
   return (
@@ -21,7 +23,11 @@ const App: React.FC = () => {
               path="/servers/:serverId/:channelId?"
               element={
                 <ProtectedRoute>
-                  <Server />
+                  <MembershipProvider>
+                    <MembershipCheck>
+                      <Server />
+                    </MembershipCheck>
+                  </MembershipProvider>
                 </ProtectedRoute>
               }
             />
