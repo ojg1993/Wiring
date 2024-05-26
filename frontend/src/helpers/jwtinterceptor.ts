@@ -23,13 +23,13 @@ const useAxiosWithInterceptor = (): AxiosInstance => {
                 if (response.status === 200) { 
                 return jwtAxios(originalRequest);
                 }
-            } catch (error) {
+            } catch (refreshError) {
                 logout()
                 navigate("/login");
-                throw Promise.reject(error);
+                throw Promise.reject(refreshError);
             }
         }
-        throw error;
+        throw Promise.reject(error);
         }
     )
     return jwtAxios;
