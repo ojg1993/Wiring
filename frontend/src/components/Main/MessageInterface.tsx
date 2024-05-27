@@ -16,6 +16,7 @@ import ChannelInterface from "./MessageChannelInterface";
 import Scroll from "./Scroll";
 import SendIcon from "@mui/icons-material/Send";
 import useChatWebSocket from "../../services/chatService";
+import { useMembershipContext } from "../../context/MembeshiprContext";
 
 interface ServerChannelsProps {
   data: Server[];
@@ -35,6 +36,7 @@ interface SendMessage {
 
 const MessageInterface = (props: ServerChannelsProps) => {
   const { data } = props;
+  const { isUserMember } = useMembershipContext();
   const theme = useTheme();
   const server_name = data?.[0]?.name ?? "Server";
   const { serverId, channelId } = useParams();
@@ -179,34 +181,36 @@ const MessageInterface = (props: ServerChannelsProps) => {
                 zIndex: 1,
               }}
             >
-              <Box sx={{ display: "flex" }}>
-                <TextField
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  fullWidth
-                  multiline
-                  minRows={1}
-                  maxRows={4}
-                  sx={{ flexGrow: 1 }}
-                  onKeyDown={handleKeyDown}
-                />
-                <Button
-                  sx={{
-                    border: "1px solid grey",
-                    borderRadius: "0.5rem",
-                    ml: 1,
-                  }}
-                  endIcon={<SendIcon sx={{ color: "grey" }} />}
-                  onClick={handleClick}
-                >
-                  <Typography
-                    variant="button"
-                    sx={{ fontWeight: 600, color: "grey" }}
+              {isUserMember && (
+                <Box sx={{ display: "flex" }}>
+                  <TextField
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    fullWidth
+                    multiline
+                    minRows={1}
+                    maxRows={4}
+                    sx={{ flexGrow: 1 }}
+                    onKeyDown={handleKeyDown}
+                  />
+                  <Button
+                    sx={{
+                      border: "1px solid grey",
+                      borderRadius: "0.5rem",
+                      ml: 1,
+                    }}
+                    endIcon={<SendIcon sx={{ color: "grey" }} />}
+                    onClick={handleClick}
                   >
-                    Send
-                  </Typography>
-                </Button>
-              </Box>
+                    <Typography
+                      variant="button"
+                      sx={{ fontWeight: 600, color: "grey" }}
+                    >
+                      Send
+                    </Typography>
+                  </Button>
+                </Box>
+              )}
             </form>
           </Box>
         </>
