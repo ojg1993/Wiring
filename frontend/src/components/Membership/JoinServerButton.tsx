@@ -27,9 +27,13 @@ const JoinServerButton = () => {
   return (
     <>
       {isUserMember ? (
-        <Button onClick={handleLeaveServer}>Leave Server</Button>
+        <Button sx={{ color: "darkred" }} onClick={handleLeaveServer}>
+          Leave Server
+        </Button>
       ) : (
-        <Button onClick={handleJoinServer}>Join Server</Button>
+        <Button sx={{ color: "grey" }} onClick={handleJoinServer}>
+          Join Server
+        </Button>
       )}
     </>
   );

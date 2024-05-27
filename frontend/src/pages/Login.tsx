@@ -1,7 +1,14 @@
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useAuthServiceContext } from "../context/AuthServiceContext";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Link,
+} from "@mui/material";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -83,10 +90,26 @@ const Login = () => {
             disableElevation
             type="submit"
             variant="contained"
-            sx={{ mt: 1, mb: 2, backgroundColor: "grey" }}
+            sx={{
+              mt: 1,
+              mb: 2,
+              backgroundColor: "grey",
+              ":hover": { backgroundColor: "black" },
+            }}
           >
             Login
           </Button>
+          <Box
+            sx={{
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Link href="/register" sx={{ textDecoration: "none" }}>
+              <Typography color="primary">Don't have an account?</Typography>
+            </Link>
+          </Box>
         </Box>
       </Box>
     </Container>
