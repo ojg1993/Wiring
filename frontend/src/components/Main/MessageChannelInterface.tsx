@@ -32,7 +32,7 @@ const MessageChannelInterface = (props: ServerChannelsProps) => {
     data
       ?.find((server) => server.id == Number(serverId))
       ?.channel_server?.find((channel) => channel.id == Number(channelId))
-      ?.name || "home";
+      ?.name || "Home";
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {

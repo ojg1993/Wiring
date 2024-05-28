@@ -25,10 +25,7 @@ interface Category {
 const ExploreCategories = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Category>(
-    [],
-    "/categories/"
-  );
+  const { dataCRUD, fetchData } = useCrud<Category>([], "/categories/");
 
   useEffect(() => {
     fetchData();
@@ -48,7 +45,7 @@ const ExploreCategories = () => {
           backgroundColor: theme.palette.background.paper,
         }}
       >
-        Explore
+        Categories
       </Box>
       <List sx={{ py: 0 }}>
         {dataCRUD.map((category) => (
@@ -62,7 +59,7 @@ const ExploreCategories = () => {
             dense={true}
           >
             <Link
-              to={`/servers/${category.name}`}
+              to={`/categories/${category.name}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItemButton sx={{ minHeight: 48 }}>

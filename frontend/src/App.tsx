@@ -31,7 +31,7 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/servers/:categoryName" element={<Explore />} />
+            <Route path="/categories/:categoryName" element={<Explore />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route

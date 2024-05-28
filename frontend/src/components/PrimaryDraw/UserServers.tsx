@@ -35,7 +35,7 @@ const UserServers: React.FC<Props & UserServersProps> = ({ open, data }) => {
         }}
       >
         <Typography sx={{ display: open ? "block" : "none" }}>
-          Current Servers
+          Current Server
         </Typography>
       </Box>
       <List>

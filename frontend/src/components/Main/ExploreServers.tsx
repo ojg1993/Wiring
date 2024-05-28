@@ -26,12 +26,17 @@ interface Server {
   category: string;
   icon: string;
   banner: string;
+  num_members: number;
 }
 
 const ExploreServers = () => {
   const { categoryName } = useParams();
-  const url = categoryName ? `/servers/?category=${categoryName}` : "/servers/";
+  const url = categoryName
+    ? `/servers/?category=${categoryName}&with_num_members=true`
+    : "/servers/";
   const { dataCRUD, fetchData } = useCrud<Server>([], url);
+
+  const sortedData = dataCRUD.sort((a, b) => b.num_members - a.num_members);
 
   useEffect(() => {
     fetchData();
@@ -83,7 +88,7 @@ const ExploreServers = () => {
           Recommended Servers
         </Typography>
         <Grid container spacing={{ xs: 0, sm: 2 }}>
-          {dataCRUD.map((server) => (
+          {sortedData.map((server) => (
             <Grid item key={server.id} xs={12} sm={6} md={6} lg={4}>
               <Card
                 sx={{

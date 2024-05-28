@@ -21,6 +21,7 @@ interface Server {
   category: string;
   icon: string;
   banner: string;
+  num_members: number;
 }
 
 type Props = {
@@ -28,10 +29,11 @@ type Props = {
 };
 
 const PopularServers: React.FC<Props> = ({ open }) => {
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Server>(
+  const { dataCRUD, fetchData } = useCrud<Server>(
     [],
-    "/servers/"
+    "/servers/?with_num_members=true"
   );
+  const sortedData = dataCRUD.sort((a, b) => b.num_members - a.num_members);
 
   useEffect(() => {
     fetchData();
@@ -49,11 +51,11 @@ const PopularServers: React.FC<Props> = ({ open }) => {
         }}
       >
         <Typography sx={{ display: open ? "block" : "none" }}>
-          Popular
+          Popular Servers
         </Typography>
       </Box>
       <List>
-        {dataCRUD.map((server) => (
+        {sortedData.map((server) => (
           <ListItem
             key={server.id}
             disablePadding
