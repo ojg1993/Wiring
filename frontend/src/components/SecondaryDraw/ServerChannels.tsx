@@ -34,7 +34,7 @@ const ServerChannels = (props: ServerChannelsProps) => {
           px: 2,
           borderBottom: `1px solid ${theme.palette.divider}`,
           position: "sticky",
-          top: 0,
+          top: 1,
           backgroundColor: theme.palette.background.paper,
         }}
       >
