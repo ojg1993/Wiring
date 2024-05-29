@@ -5,10 +5,12 @@ import {
   Box,
   Button,
   Container,
+  CssBaseline,
   Link,
   TextField,
   Typography,
 } from "@mui/material";
+import PrimaryAppBar from "./templates/PrimaryAppBar";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -48,6 +50,8 @@ const Register = () => {
   });
   return (
     <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <PrimaryAppBar />
       <Box
         sx={{
           display: "flex",

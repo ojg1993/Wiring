@@ -8,7 +8,9 @@ import {
   TextField,
   Typography,
   Link,
+  CssBaseline,
 } from "@mui/material";
+import PrimaryAppBar from "./templates/PrimaryAppBar";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,6 +47,8 @@ const Login = () => {
   });
   return (
     <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <PrimaryAppBar />
       <Box
         sx={{
           display: "flex",
