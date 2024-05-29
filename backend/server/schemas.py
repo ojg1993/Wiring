@@ -1,5 +1,5 @@
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 
 from .serializers import ServerSerializer
 
@@ -42,4 +42,30 @@ server_list_docs = extend_schema(
             description="Include the number of members in each server.",
         ),
     ],
+)
+
+membership_is_member_docs = extend_schema(
+    responses={
+        200: OpenApiResponse(description="Returns a boolean indicating whether the user is a member of the server.")
+    }
+)
+
+membership_create_docs = extend_schema(
+    responses={
+        201: OpenApiResponse(
+            description="Returns a message indicating that the user has been successfully added to the server."
+        ),
+        409: OpenApiResponse(description="Returns an error message if the user is already a member of the server."),
+    },
+)
+
+
+membership_remove_member_docs = extend_schema(
+    responses={
+        204: OpenApiResponse(
+            description="Returns a message indicating that the user has been successfully removed from the server."
+        ),
+        404: OpenApiResponse(description="Returns an error message if the user is not a member of the server."),
+        409: OpenApiResponse(description="Returns an error message if the user is the owner of the server."),
+    }
 )

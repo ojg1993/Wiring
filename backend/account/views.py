@@ -12,11 +12,18 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .models import Account
-from .schemas import account_list_docs
+from .schemas import (
+    account_list_docs,
+    account_logout_docs,
+    account_register_docs,
+    jwt_token_obtain_docs,
+    jwt_token_refresh,
+)
 
 
 class RegisterAPIView(APIView):
 
+    @account_register_docs
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -39,6 +46,7 @@ class RegisterAPIView(APIView):
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @account_logout_docs
     def post(self, request, format=None):
         response = Response("Successfully logged out.")
 
@@ -86,6 +94,14 @@ class JWTSetCookieMixin:
 class JWTCookieTokenObtainPairView(JWTSetCookieMixin, TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
+    @jwt_token_obtain_docs
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
 
 class JWTCookieTokenRefreshView(JWTSetCookieMixin, TokenRefreshView):
     serializer_class = JWTCookieTokenRefreshSerializer
+
+    @jwt_token_refresh
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)

@@ -8,22 +8,60 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Category, Server
-from .schemas import server_list_docs
+from .schemas import (
+    membership_create_docs,
+    membership_is_member_docs,
+    membership_remove_member_docs,
+    server_list_docs,
+)
 from .serializers import CategorySerializer, ServerSerializer
 
 
 class ServerMembershipViewSet(viewsets.ViewSet):
+    """
+    A viewset for managing server memberships.
+
+    This viewset provides endpoints for checking membership status, adding a member to a server, and removing a member from a server.
+    The endpoints support the GET, POST, and DELETE methods.
+    """
+
     permission_classes = [IsAuthenticated]
 
+    @membership_is_member_docs
     @action(detail=False, methods=["GET"])
     def is_member(self, request, server_id=None):
+        """
+        Handle GET request to check if a user is a member of a server.
+
+        This method checks if the authenticated user is a member of the server specified by server_id.
+
+        Args:
+            request (Request): HTTP GET request object.
+            server_id (str): The ID of the server.
+
+        Returns:
+            Response: A Response object containing a boolean indicating whether the user is a member of the server.
+        """
         server = get_object_or_404(Server, id=server_id)
         user = request.user
         is_member = server.members.filter(id=user.id).exists()
 
         return Response({"is_member": is_member})
 
+    @membership_create_docs
     def create(self, request, server_id):
+        """
+        Handle POST request to add a user to a server.
+
+        This method adds the authenticated user to the server specified by server_id.
+
+        Args:
+            request (Request): HTTP POST request object.
+            server_id (str): The ID of the server.
+
+        Returns:
+            Response: A Response object containing a message indicating the result of the operation.
+        """
         server = get_object_or_404(Server, id=server_id)
         user = request.user
 
@@ -33,8 +71,21 @@ class ServerMembershipViewSet(viewsets.ViewSet):
         server.members.add(user)
         return Response({"detail": "User has been successfully added to the server."}, status=status.HTTP_201_CREATED)
 
+    @membership_remove_member_docs
     @action(detail=False, methods=["DELETE"])
     def remove_member(self, request, server_id):
+        """
+        Handle DELETE request to remove a user from a server.
+
+        This method removes the authenticated user from the server specified by server_id.
+
+        Args:
+            request (Request): HTTP DELETE request object.
+            server_id (str): The ID of the server.
+
+        Returns:
+            Response: A Response object containing a message indicating the result of the operation.
+        """
         server = get_object_or_404(Server, id=server_id)
         user = request.user
 
