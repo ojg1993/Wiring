@@ -26,10 +26,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/docs/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/schema/ui/", SpectacularSwaggerView.as_view()),
-    path("api/token/", JWTCookieTokenObtainPairView.as_view()),
-    path("api/token/refresh/", JWTCookieTokenRefreshView.as_view()),
-    path("api/logout/", LogoutAPIView.as_view()),
-    path("api/register/", RegisterAPIView.as_view()),
+    path("api/token/", JWTCookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", JWTCookieTokenRefreshView.as_view(), name="token_refresh"),
+    path("api/logout/", LogoutAPIView.as_view(), name="logout"),
+    path("api/register/", RegisterAPIView.as_view(), name="register"),
 ] + router.urls
 
 websocket_urlpatterns = [
